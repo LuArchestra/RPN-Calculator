@@ -1,8 +1,8 @@
 #Ignore toutes les ressources en local (images...)
+/ressources/
 
 # Ignore tous les .class
 # Car ne font pas partie du code source :
 # Ce sont des "Artefacts compilés", recrées a partir de ce dernier.
-/ressources/
 *.class
 /bin/
