@@ -1,2 +1,4 @@
 #Ignore toutes les ressources en local (images...)
 /ressources/
+*.class
+/bin/
