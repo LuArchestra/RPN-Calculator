@@ -6,3 +6,6 @@
 # Ce sont des "Artefacts compilés", recrées a partir de ce dernier.
 *.class
 /bin/
+
+# Ignore le .vscode
+.vscode/
