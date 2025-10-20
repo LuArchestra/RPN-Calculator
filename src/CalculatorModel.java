@@ -27,6 +27,7 @@ public class CalculatorModel implements CalculatorModelInterface {
     } 
 
     public void setAccu(double value){  
+        memory.push(accu);       // Sauvegarde de l'ancienne valeur de l'accumulateur dans la pile
         this.accu = value;
     }
 
@@ -37,25 +38,21 @@ public class CalculatorModel implements CalculatorModelInterface {
     @Override
     public void add() {
         accu = memory.pop() + accu;         // Additionne accu avec la dernière valeur en mémoire
-        memory.push(accu);                  // Remet le résultat dans la pile
     }
 
     @Override
     public void subtract(){
         accu = memory.pop() - accu;
-        memory.push(accu);                 // Remet le résultat dans la pile
     }
 
     @Override
     public void multiply(){
         accu = memory.pop() * accu;
-        memory.push(accu);                // Remet le résultat dans la pile
     }
 
     @Override
     public void divide(){
         accu += memory.pop() / accu;
-        memory.push(accu);                // Remet le résultat dans la pile
     }
 
     @Override

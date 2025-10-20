@@ -32,6 +32,7 @@ public class Main {
         calc.setAccu(2);
         System.out.println("New accu: " + calc.getAccu());
         calc.push();
+        System.out.println("[Accu pushed]");
         System.out.println("Memory after push: " + calc.memory +"<-- Last value (displayed on the screen)");
 
 
