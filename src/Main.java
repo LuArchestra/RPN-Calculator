@@ -74,16 +74,36 @@ public class Main {
         calc.setAccu(3);
         System.out.println("New accu: " + calc.getAccu());
         calc.push();
+        System.out.println("New accu: " + calc.getAccu());
         System.out.println("Memory after push: " + calc.memory);
 
         calc.add();
+        System.out.println("New accu after addition: " + calc.getAccu());
         System.out.println("Memory after addition: " + calc.memory);
 
         calc.multiply();
+        System.out.println("New accu after multiplication: " + calc.getAccu());
         System.out.println("Memory after multiplication: " + calc.memory);
 
         calc.subtract();
+        System.out.println("New accu after subtraction: " + calc.getAccu());
         System.out.println("Memory after subtraction: " + calc.memory);
-        // La calculatrice ne gère pas correctement la pile
-    }
+
+        calc.subtract();
+        System.out.println("New accu after subtraction: " + calc.getAccu());
+        System.out.println("Memory after subtraction: " + calc.memory);
+
+        calc.subtract();
+        System.out.println("New accu after subtraction: " + calc.getAccu());
+        System.out.println("Memory after subtraction: " + calc.memory);
+
+        calc.subtract();
+        System.out.println("New accu after subtraction: " + calc.getAccu());
+        System.out.println("Memory after subtraction: " + calc.memory);
+
+        calc.subtract();
+        System.out.println("New accu after subtraction: " + calc.getAccu());
+        System.out.println("Memory after subtraction: " + calc.memory);
+
+        }
 }

@@ -1,8 +1,5 @@
 import java.util.Stack;
 
-// A corriger : Certaines opérations ne donnent pas l'identique à une vraie calculatrice RPN
-// Ex : 5 push 3 push multiply donne 15 OK
-//      8 push 6 push substract, substract, substract donne autre résultat.
 
 interface CalculatorModelInterface {
     void add();
@@ -27,7 +24,8 @@ public class CalculatorModel implements CalculatorModelInterface {
     } 
 
     public void setAccu(double value){  
-        memory.push(accu);       // Sauvegarde de l'ancienne valeur de l'accumulateur dans la pile
+        //memory.push(accu);       // Sauvegarde de l'ancienne valeur de l'accumulateur dans la pile
+        // le push pollue la pile (0 s'ajoute au premier push...), on el remplacera avec la partie controleur
         this.accu = value;
     }
 
@@ -52,7 +50,7 @@ public class CalculatorModel implements CalculatorModelInterface {
 
     @Override
     public void divide(){
-        accu += memory.pop() / accu;
+        accu = memory.pop() / accu;
     }
 
     @Override
