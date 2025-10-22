@@ -8,7 +8,7 @@ interface CalculatorModelInterface {
     void divide();
     void opposite();
     void push();
-    void pop();
+    Double pop();
     void drop();
     void swap();
     void clear();
@@ -18,6 +18,14 @@ interface CalculatorModelInterface {
 public class CalculatorModel implements CalculatorModelInterface {
 
     private double accu;    // Accumulateur : Valeur en cours de traitement (affichée par la calculatrice)
+
+    Stack<Double> memory = new Stack<>(); // Mémoire pile
+
+
+    public CalculatorModel(){
+        this.accu = 0.0;
+        this.memory = new Stack<>();
+    }
 
     public double getAccu(){
         return this.accu;
@@ -29,33 +37,53 @@ public class CalculatorModel implements CalculatorModelInterface {
         this.accu = value;
     }
 
-    Stack<Double> memory = new Stack<>(); // Mémoire pile
+
+// Méthode pour dépiler la dernière valeur de la pile et la retourner si elle existe sinon affiche une erreur
+    public Double pop(){
+        try {
+            if (memory.isEmpty()) {
+                throw new Exception("Erreur : La pile est vide.");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return 0.0;
+        }
+        return memory.pop();
+    }
 
 
     // Definition des opérations de la calculatrice RPN à implémenter
     @Override
     public void add() {
-        accu = memory.pop() + accu;         // Additionne accu avec la dernière valeur en mémoire
+        accu = this.pop() + this.accu;         // Additionne accu avec la dernière valeur en mémoire
     }
 
     @Override
     public void subtract(){
-        accu = memory.pop() - accu;
+        accu = this.pop() - accu;
     }
 
     @Override
     public void multiply(){
-        accu = memory.pop() * accu;
+        accu = this.pop() * accu;
     }
 
     @Override
     public void divide(){
-        accu = memory.pop() / accu;
+        try {
+            if (accu == 0.0) {
+                throw new Exception("Erreur : Division par zero.");
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+        accu = this.pop() / accu;
     }
 
     @Override
     public void opposite(){ // Change le signe de la dernière valeur de la pile
-        double A = memory.pop();
+        double A = this.pop();
         memory.push(-A);                   // Remet le résultat dans la pile
     }
 
@@ -63,12 +91,7 @@ public class CalculatorModel implements CalculatorModelInterface {
     public void push(){
         memory.push(accu);
 
-    }
-    
-    @Override
-    public void pop(){
-        accu = memory.pop();
-        // fixer try catch : si accumulateur vide, erreur
+
     }
     
     @Override
@@ -87,7 +110,12 @@ public class CalculatorModel implements CalculatorModelInterface {
 
     @Override
     public void clear(){        // vide la pile
+        if (this.accu == 0.0) then : {
         memory.clear();
+        }
+        else {
+            this.setAccu(0.0);
+        }
     }
 
 }

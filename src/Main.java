@@ -105,5 +105,19 @@ public class Main {
         System.out.println("New accu after subtraction: " + calc.getAccu());
         System.out.println("Memory after subtraction: " + calc.memory);
 
+System.out.println("\n----------[Test Division par 0] ------------");
+        calc.clear();
+        System.out.println("Memory after clear: " + calc.memory);
+        calc.setAccu(5);
+        System.out.println("New accu: " + calc.getAccu());
+        calc.push();
+        System.out.println("Memory after push: " + calc.memory);
+        calc.setAccu(0);
+        System.out.println("New accu: " + calc.getAccu());
+        calc.divide();
+        System.out.println("Accu after division: " + calc.getAccu());
+        System.out.println("Memory after division: " + calc.memory);
+
+
         }
 }
