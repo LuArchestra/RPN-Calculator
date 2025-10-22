@@ -14,7 +14,7 @@
          <children>
             <ImageView fitWidth="300.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@calculator__1_body.png" />
+                  <Image url="@../assets/calculator_1_body.png" />
                </image>
             </ImageView>
             <Pane prefHeight="693.0" prefWidth="308.0">
@@ -49,7 +49,7 @@
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="50.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@calculator_1%20button_blue%20(2).png" />
+                              <Image url="@../assets/calculator_1%20button_blue.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -85,7 +85,7 @@
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="50.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@calculator_1%20button_blue%20(2).png" />
+                              <Image url="@../assets/calculator_1%20button_blue.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -121,7 +121,7 @@
                      <graphic>
                         <ImageView fitHeight="150.0" fitWidth="50.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
                            <image>
-                              <Image url="@calculator_1%20button_blue%20(2).png" />
+                              <Image url="@../assets/calculator_1%20button_blue.png" />
                            </image>
                         </ImageView>
                      </graphic>

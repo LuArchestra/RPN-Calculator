@@ -1,160 +1,77 @@
-package app.controller;
+package calc.view;
 
 import java.util.List;
-import app.contracts.CalculatorModelInterface;
-import app.contracts.CalculatorViewInterface;
+import javafx.geometry.Insets;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.DoubleConsumer;
 
-/**
- * Contrôleur MVC (Presenter) — indépendant de JavaFX/FXML.
- * Orchestration : reçoit des intentions, appelle le modèle,
- * puis met à jour la vue via CalculatorViewInterface.
- */
-public class CalculatorController {
+interface CalculatorViewInterface {
+    void setAccu(String text);
+    void setStack(List<Double> stack);
+    void setOnDigit(java.util.function.DoubleConsumer handler);
+    void setOnOp(java.util.function.Consumer<String> handler);
+    void setOnCmd(java.util.function.Consumer<String> handler);
+}
 
-    private final CalculatorModelInterface model;
-    private final CalculatorViewInterface view;
+public class CalculatorView extends BorderPane implements CalculatorViewInterface {
+    private final TextField accu = new TextField();
+    private final ListView<Double> stackView = new ListView<>();
 
-    // Etat d’édition côté UI (pas de métier ici)
-    private boolean editingNumber = false;     // on saisit un nombre (concaténation)
-    private boolean stackLiftEnabled = false;  // si tu émules le "stack lift" HP (optionnel)
+    private DoubleConsumer onDigit = d -> {};
+    private Consumer<String> onOp = s -> {};
+    private Consumer<String> onCmd = s -> {};
 
-    public CalculatorController(CalculatorModelInterface model, CalculatorViewInterface view) {
-        this.model = model;
-        this.view  = view;
-        // First paint
-        pushStateToView();
-    }
+    public CalculatorView() {
+        setPadding(new Insets(12));
 
-    /* =========================
-       Intentions utilisateur
-       ========================= */
+        accu.setEditable(false);
+        accu.setPromptText("accu");
+        setTop(accu);
 
-    /** L'utilisateur tape un chiffre (ou "."). */
-    public void onDigit(String token) {
-        // Validation légère
-        if (token == null || token.isEmpty()) return;
+        setLeft(stackView);
+        BorderPane.setMargin(stackView, new Insets(0, 12, 0, 0));
 
-        // Edition d’un nouveau nombre
-        if (!editingNumber) {
-            // (optionnel) stackLiftEnabled : lève la pile au 1er chiffre après un résultat
-            // if (stackLiftEnabled) { model.push(); stackLiftEnabled = false; } // si tu veux émuler HP
-            replaceAccuFromToken(token);
-            editingNumber = true;
-        } else {
-            appendTokenToAccu(token);
+        GridPane keypad = new GridPane();
+        keypad.setHgap(8);
+        keypad.setVgap(8);
+
+        String[] digits = { "7","8","9","4","5","6","1","2","3","0",".","ENTER" };
+        int row = 0, col = 0;
+        for (String d : digits) {
+            Button b = new Button(d);
+            b.setMaxWidth(Double.MAX_VALUE);
+            b.setOnAction(e -> {
+                if ("ENTER".equals(d)) onCmd.accept("enter");
+                else if (".".equals(d)) onCmd.accept("dot");
+                else onDigit.accept(Double.parseDouble(d));
+            });
+            keypad.add(b, col, row);
+            col++; if (col == 3) { col = 0; row++; }
         }
-        view.changeAccu(format(model.getAccu()));
-    }
 
-    /** ENTER / PUSH */
-    public void onPush() {
-        model.push();
-        editingNumber = false;
-        // stackLiftEnabled = false; // comportement HP : ENTER désactive la levée
-        pushStateToView();
-    }
-
-    public void onPop() {
-        safeRun(() -> model.pop());
-    }
-
-    public void onDrop() {
-        safeRun(() -> model.drop());
-    }
-
-    public void onSwap() {
-        safeRun(() -> model.swap());
-    }
-
-    public void onClear() {
-        model.clear();
-        editingNumber = false;
-        pushStateToView();
-    }
-
-    public void onOpposite() {
-        model.opposite();
-        editingNumber = true; // on continue d’éditer ce X négatif
-        pushStateToView();
-    }
-
-    /* ===== Opérations binaires ===== */
-
-    public void onAdd()       { binaryOp(() -> model.add()); }
-    public void onSubtract()  { binaryOp(() -> model.subtract()); }
-    public void onMultiply()  { binaryOp(() -> model.multiply()); }
-    public void onDivide()    { binaryOp(() -> model.divide()); } // gérer /0 côté modèle
-
-    /* =========================
-       Helpers d’orchestration
-       ========================= */
-
-    private void binaryOp(Runnable op) {
-        safeRun(op);
-        editingNumber = false;      // résultat figé
-        // stackLiftEnabled = true; // prochain premier chiffre lèvera la pile (si tu émules HP)
-        pushStateToView();
-    }
-
-    private void safeRun(Runnable op) {
-        try {
-            op.run();
-            pushStateToView();
-        } catch (RuntimeException ex) {
-            // Gestion d’erreurs "métier" : pile vide, division par zéro, etc.
-            // Stratégie simple : ne change pas l’état visuel, ou affiche un message via la vue
-            // (tu peux étendre l'interface Vue avec showError(String) si besoin)
+        VBox ops = new VBox(8);
+        for (String op : new String[]{"+","-","*","/","±","drop","swap","clear"}) {
+            Button b = new Button(op);
+            b.setMaxWidth(Double.MAX_VALUE);
+            b.setOnAction(e -> {
+                if ("±".equals(op)) onOp.accept("opposite");
+                else if ("drop".equals(op) || "swap".equals(op) || "clear".equals(op)) onCmd.accept(op);
+                else onOp.accept(op);
+            });
+            ops.getChildren().add(b);
         }
+
+        setCenter(keypad);
+        setRight(ops);
     }
 
-    /** Envoie l’état courant à la vue. */
-    private void pushStateToView() {
-        view.changeAccu(format(model.getAccu()));
-        List<Double> stack = model.snapshotStack();
-        view.changeStack(stack);
-        // view.affiche(); // si tu veux un refresh global en plus
-    }
+    @Override public void setAccu(String text) { accu.setText(text); }
+    @Override public void setStack(List<Double> stack) { stackView.getItems().setAll(stack); }
 
-    /* =========================
-       Edition d’accu (UI only)
-       ========================= */
-
-    /** Remplace l'accu par le "premier token" (ex: "1" ou ".") selon ta politique. */
-    private void replaceAccuFromToken(String token) {
-        if (",".equals(token)) token = "."; // si tu veux tolérer la virgule
-        if (".".equals(token)) {
-            // démarrer à "0." si on tape d'abord le point
-            setAccuFromString("0.");
-        } else {
-            setAccuFromString(token);
-        }
-    }
-
-    /** Concatène le token au texte courant de l’accu. */
-    private void appendTokenToAccu(String token) {
-        String current = format(model.getAccu());
-        if (",".equals(token)) token = ".";
-        // Empêcher deux points décimaux
-        if (".".equals(token) && current.contains(".")) return;
-
-        String next = current.equals("0") && !token.equals(".") ? token : current + token;
-        setAccuFromString(next);
-    }
-
-    /** Parse sécurisé : met à jour l’accu du modèle à partir d’un String. */
-    private void setAccuFromString(String s) {
-        try {
-            double v = Double.parseDouble(s);
-            model.setAccu(v);
-        } catch (NumberFormatException ignored) {
-            // on ignore le token invalide sans casser l'édition
-        }
-    }
-
-    /** Formatage d’affichage (nombre de décimales, trim, locale...). */
-    private String format(double v) {
-        // Pour commencer : représentation brute
-        // Tu peux remplacer par DecimalFormat si tu veux 4/6 décimales fixes, etc.
-        return Double.toString(v);
-    }
+    @Override public void setOnDigit(DoubleConsumer handler) { this.onDigit = handler != null ? handler : d -> {}; }
+    @Override public void setOnOp(Consumer<String> handler) { this.onOp = handler != null ? handler : s -> {}; }
+    @Override public void setOnCmd(Consumer<String> handler) { this.onCmd = handler != null ? handler : s -> {}; }
 }
