@@ -121,27 +121,27 @@ System.out.println("\n----------[Test Division par 0] ------------");
 System.out.println("\n----------[Test Polynome] ------------");
         
         double[] coeffs = {2.0, -3.0, 0.0, 5.0, 0.0}; // Représente le polynôme 5X^3 - 3X + 2        
-        Polynome p = new Polynome(coeffs);
+        Polynom p = new Polynom(coeffs);
         System.out.print("Polynome:") ;
         System.out.print(p.toString());
         
         double[] coeffs2 = {0.0, 0.0, 0.0}; // Représente le polynôme 0
-        Polynome p2 = new Polynome(coeffs2);
+        Polynom p2 = new Polynom(coeffs2);
         System.out.print("\nPolynome:") ;
         System.out.print(p2.toString());
         
         double[] coeffs3 = {-1.2, 0.0, -4.0, -3.0}; // Représente le polynôme -3X^3 - 4X^2 - 1.2
-        Polynome p3 = new Polynome(coeffs3);
+        Polynom p3 = new Polynom(coeffs3);
         System.out.print("Polynome:") ;
         System.out.print(p3.toString());
         
         double[] coeffs4 = {-10.0, 42.0, 0.0 ,0.0, 8.0,-3.0,0.0,-2.5,-7.2,0.0}; // Représente le polynôme -7.2X^8 - 2.5X^7 - 3X^5 + 8X^4 + 42X -10        
-        Polynome p4 = new Polynome(coeffs4);
+        Polynom p4 = new Polynom(coeffs4);
         System.out.print("\nPolynome:") ;
         System.out.print(p4.toString());
         
         double[] coeffs5 = {0.0,2.0}; // Représente le polynôme 2.0X
-        Polynome p5 = new Polynome(coeffs5);
+        Polynom p5 = new Polynom(coeffs5);
         System.out.print("\nPolynome:") ;
         System.out.print(p5.toString());
 

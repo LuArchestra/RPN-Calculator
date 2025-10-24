@@ -1,13 +1,13 @@
 import java.util.ArrayList;
 
-public class Polynome {
+public class Polynom {
     public int degree;
     public ArrayList<Double> coefficients;
 
 /**
  * @param coefficients
  */
-public Polynome(double[] coefficientsEntrée){
+public Polynom(double[] coefficientsEntrée){
     this.coefficients = new ArrayList<>();
     for (double coeff : coefficientsEntrée) {
         this.coefficients.add(coeff);

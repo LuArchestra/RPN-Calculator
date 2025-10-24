@@ -8,7 +8,6 @@ interface Calculator {
     void divide();
     void opposite();
     void push();
-    Double pop();
     void drop();
     void swap();
     void clear();
