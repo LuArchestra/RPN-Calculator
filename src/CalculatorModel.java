@@ -115,7 +115,7 @@ public class CalculatorModel implements Calculator {
 
     @Override
     public void clear(){        // vide la pile
-        if (this.accu == 0.0) then : {
+        if (this.accu == 0.0) {
         memory.clear();
         }
         else {
