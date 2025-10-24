@@ -1,7 +1,7 @@
 import java.util.Stack;
 
 
-interface CalculatorModelInterface {
+interface Calculator {
     void add();
     void subtract();
     void multiply();
@@ -15,7 +15,7 @@ interface CalculatorModelInterface {
 }
 
 
-public class CalculatorModel implements CalculatorModelInterface {
+public class CalculatorModel implements Calculator {
 
     private double accu;    // Accumulateur : Valeur en cours de traitement (affichée par la calculatrice)
 
@@ -27,18 +27,24 @@ public class CalculatorModel implements CalculatorModelInterface {
         this.memory = new Stack<>();
     }
 
+    /**
+     * @return the accu
+     */
+
     public double getAccu(){
         return this.accu;
-    } 
+    }
 
-    public void setAccu(double value){  
+    public void setAccu(double value) {
         //memory.push(accu);       // Sauvegarde de l'ancienne valeur de l'accumulateur dans la pile
         // le push pollue la pile (0 s'ajoute au premier push...), on el remplacera avec la partie controleur
         this.accu = value;
     }
 
 
-// Méthode pour dépiler la dernière valeur de la pile et la retourner si elle existe sinon affiche une erreur
+/**
+ * Méthode pour dépiler la dernière valeur de la pile et la retourner si elle existe sinon affiche une erreur
+ */
     public Double pop(){
         try {
             if (memory.isEmpty()) {
