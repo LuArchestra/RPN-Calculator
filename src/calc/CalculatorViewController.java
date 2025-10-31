@@ -1,11 +1,9 @@
-package ui;
-
+package calc;
 import java.util.List;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ListView;
-import controller.CalculatorController;
 
 public class CalculatorViewController {
 
@@ -33,10 +31,14 @@ public class CalculatorViewController {
 
     // Handlers liés au FXML
     @FXML
-    private void onDigit0() { presenter.onDigit("0"); }
+    private void onDigit0() { 
+    	//presenter.onDigit("0"); 
+    	}
 
     @FXML
-    private void onAdd() { presenter.onAdd(); }
+    private void onAdd() { 
+    	//presenter.onAdd(); 
+    	}
 
     // etc.
 }
