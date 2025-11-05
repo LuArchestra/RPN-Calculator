@@ -45,30 +45,57 @@ public class CalculatorPolynomModel implements Calculator {
             double coeff1 = (i <= p1.getDegree()) ? p1.getCoefficients().get(i) : 0.0;
             double coeff2 = (i <= p2.getDegree()) ? p2.getCoefficients().get(i) : 0.0;
             resultCoeffs[i] = coeff1 + coeff2;
+            this.accu = new Polynom(resultCoeffs);
         }
-
         Polynom result  = new Polynom(resultCoeffs);
         this.accu = result;
     }
 
     @Override
     public void subtract(){
-        // À implémenter
+        Polynom p2 = this.pop();
+        Polynom p1 = this.accu;
+        double[] resultCoeffs = new double[Math.max(p1.getDegree(), p2.getDegree()) + 1];
+        for (int i = 0; i <= Math.max(p1.getDegree(), p2.getDegree()); i++) {
+            double coeff1 = (i <= p1.getDegree()) ? p1.getCoefficients().get(i) : 0.0;
+            double coeff2 = (i <= p2.getDegree()) ? p2.getCoefficients().get(i) : 0.0;
+            resultCoeffs[i] = coeff1 - coeff2;
+            this.accu = new Polynom(resultCoeffs);
+        }
+        Polynom result  = new Polynom(resultCoeffs);
+        this.accu = result;
     }
 
     @Override
     public void multiply(){
-        // À implémenter
+        Polynom p2 = this.pop();
+        Polynom p1 = this.accu;
+        double[] resultCoeffs = new double[p1.getDegree() + p2.getDegree() + 1];
+        for (int i = 0; i <= p1.getDegree(); i++) {
+            for (int j = 0; j <= p2.getDegree(); j++) {
+                resultCoeffs[i + j] += p1.getCoefficients().get(i) * p2.getCoefficients().get(j);
+            }
+        }
+
+        Polynom result  = new Polynom(resultCoeffs);
+        this.accu = result;
+        
     }
 
     @Override
     public void divide(){
-        // À implémenter
+        System.out .println("Erreur : Division de polynômes non implémentée.");
     }
 
     @Override
     public void opposite(){
-        // À implémenter
+        Polynom p = this.accu;
+        double[] resultCoeffs = new double[p.getDegree() + 1];
+        for (int i = 0; i <= p.getDegree(); i++) {
+            resultCoeffs[i] = -p.getCoefficients().get(i);
+        }
+        Polynom result  = new Polynom(resultCoeffs);
+        this.accu = result;
     }
 
     @Override

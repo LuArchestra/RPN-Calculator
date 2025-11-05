@@ -1,5 +1,5 @@
 public class Main {
-    public static void main(String[] args) throws Exception {
+public static void main(String[] args) throws Exception {
         CalculatorModel calc = new CalculatorModel();
 
         calc.setAccu(2.0);
@@ -145,5 +145,35 @@ System.out.println("\n----------[Test Polynome] ------------");
         System.out.print("\nPolynome:") ;
         System.out.print(p5.toString());
 
-        }
+        System.out.println("[Test addition de polynomes]");
+        
+        CalculatorPolynomModel calcPoly = new CalculatorPolynomModel();
+        calcPoly.setAccu(p);
+        calcPoly.push();
+        calcPoly.setAccu(p3);
+        calcPoly.add();
+        System.out.println("Resultat de l'addition dans l'accu: ");
+        System.out.println(calcPoly.getAccu().toString());
+        
+        
+        System.out.println("[Test soustraction de polynomes]");
+        calcPoly.setAccu(p);
+        calcPoly.push();
+        calcPoly.setAccu(p3);
+        calcPoly.subtract();
+
+        System.out.println("Resultat de la soustraction dans l'accu: ");
+        System.out.println(calcPoly.getAccu().toString());
+
+        System.out.println("[Test multiplication de polynomes]");
+        calcPoly.setAccu(p5);
+        calcPoly.push();
+        calcPoly.setAccu(p4);
+        calcPoly.multiply();
+        System.out.println("Resultat de la multiplication dans l'accu: ");
+        System.out.println(calcPoly.getAccu().toString());
+
+
+
+}
 }
